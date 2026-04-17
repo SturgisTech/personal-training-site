@@ -55,10 +55,7 @@
       transform: translateY(0);
     }
 
-    /* =========================
-       PREMIUM SCROLL GALLERY
-    ========================== */
-
+    /* GALLERY */
     .scroll-gallery {
       display: flex;
       gap: 25px;
@@ -66,7 +63,6 @@
       padding: 40px 20px;
       scroll-snap-type: x mandatory;
       -webkit-overflow-scrolling: touch;
-      justify-content: flex-start;
       align-items: center;
     }
 
@@ -78,14 +74,13 @@
       scrollbar-width: none;
     }
 
-    /* FIX: no distortion */
     .scroll-gallery img {
       flex: 0 0 auto;
       height: 420px;
       width: auto;
       max-width: 85vw;
-
       object-fit: contain;
+
       border-radius: 12px;
       scroll-snap-align: center;
 
@@ -101,10 +96,7 @@
       box-shadow: 0 15px 40px rgba(255, 215, 0, 0.25);
     }
 
-    /* =========================
-       MODAL
-    ========================== */
-
+    /* MODAL */
     .modal {
       display: none;
       position: fixed;
@@ -128,20 +120,6 @@
       border-radius: 12px;
     }
 
-    /* CERTIFICATE */
-    .certificate {
-      width: 280px;
-      margin-top: 25px;
-      border-radius: 10px;
-      cursor: pointer;
-      transition: 0.4s ease;
-      box-shadow: 0 10px 30px rgba(255, 215, 0, 0.15);
-    }
-
-    .certificate:hover {
-      transform: scale(1.03);
-    }
-
     /* FORM */
     form {
       max-width: 500px;
@@ -153,7 +131,7 @@
       box-shadow: 0 0 30px rgba(255,255,255,0.05);
     }
 
-    input, textarea, select {
+    input, textarea {
       width: 100%;
       padding: 12px;
       margin: 10px 0;
@@ -175,6 +153,24 @@
       font-weight: bold;
     }
 
+    /* CHECKBOX GROUP */
+    .checkbox-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin: 10px 0 20px;
+      background: #1a1a1a;
+      padding: 12px;
+      border-radius: 5px;
+    }
+
+    .checkbox-group label {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.95em;
+    }
+
     @keyframes fadeIn {
       from {opacity:0; transform:translateY(20px);}
       to {opacity:1; transform:translateY(0);}
@@ -194,29 +190,25 @@
   <p>I help clients achieve their fitness goals through personalized training programs and accountability.</p>
 </section>
 
-<!-- CERTIFICATE -->
 <section class="hidden">
   <h2>Certification</h2>
   <img src="images/certificate.jpg" class="certificate" onclick="openModal(this.src)">
 </section>
 
-<!-- MODAL -->
 <div id="modal" class="modal" onclick="closeModal()">
   <img id="modalImg">
 </div>
 
-<!-- GALLERY -->
 <section class="hidden">
   <h2>My Journey</h2>
 
   <div class="scroll-gallery">
-    <img src="images/photo1.jpg" class="active" onclick="openModal(this.src)">
+    <img src="images/photo1.jpg" onclick="openModal(this.src)">
     <img src="images/photo2.jpg" onclick="openModal(this.src)">
     <img src="images/photo3.jpg" onclick="openModal(this.src)">
   </div>
 </section>
 
-<!-- FORM -->
 <section class="hidden">
   <h2>Start Your Transformation</h2>
 
@@ -231,90 +223,54 @@
     <label>Weight</label>
     <input type="text" name="weight" required>
 
-    <label>Your Goal</label>
-    <select name="goal" required>
-      <option>Lose Weight</option>
-      <option>Tone Muscles</option>
-      <option>Gain Muscle</option>
-      <option>Improve Fitness</option>
-      <option>Nutrition Plan</option>
-    </select>
-
-    <!-- CONTACT METHOD -->
-    <label>Preferred Contact Method</label>
-    <select id="contactMethod" required>
-      <option value="">Select one</option>
-      <option value="phone">Phone</option>
-      <option value="email">Email</option>
-    </select>
-
-    <input type="text" name="phone" id="phoneInput" placeholder="Phone Number" style="display:none;">
-    <input type="email" name="email" id="emailInput" placeholder="Email Address" style="display:none;">
+    <label>Your Goal (select all that apply)</label>
+    <div class="checkbox-group">
+      <label><input type="checkbox" name="goal[]" value="Lose Weight"> Lose Weight</label>
+      <label><input type="checkbox" name="goal[]" value="Tone Muscles"> Tone Muscles</label>
+      <label><input type="checkbox" name="goal[]" value="Gain Muscle"> Gain / Build Muscle</label>
+      <label><input type="checkbox" name="goal[]" value="Improve Fitness"> Improve Overall Fitness</label>
+      <label><input type="checkbox" name="goal[]" value="Nutrition Plan"> Better Nutrition Plan</label>
+    </div>
 
     <button type="submit">Submit Inquiry</button>
   </form>
 </section>
 
 <script>
-/* GALLERY ACTIVE CENTER */
-const gallery = document.querySelector('.scroll-gallery');
-const images = document.querySelectorAll('.scroll-gallery img');
+  const gallery = document.querySelector('.scroll-gallery');
+  const images = document.querySelectorAll('.scroll-gallery img');
 
-function updateActive() {
-  const center = gallery.scrollLeft + gallery.offsetWidth / 2;
+  function updateActive() {
+    const center = gallery.scrollLeft + gallery.offsetWidth / 2;
 
-  images.forEach(img => {
-    const imgCenter = img.offsetLeft + img.offsetWidth / 2;
-    const distance = Math.abs(center - imgCenter);
-    img.classList.toggle("active", distance < 250);
-  });
-}
-
-gallery.addEventListener("scroll", updateActive);
-window.addEventListener("load", updateActive);
-
-/* MODAL */
-function openModal(src) {
-  document.getElementById("modalImg").src = src;
-  document.getElementById("modal").classList.add("show");
-}
-
-function closeModal() {
-  document.getElementById("modal").classList.remove("show");
-}
-
-/* CONTACT METHOD */
-const contactMethod = document.getElementById("contactMethod");
-const phoneInput = document.getElementById("phoneInput");
-const emailInput = document.getElementById("emailInput");
-
-contactMethod.addEventListener("change", function () {
-  phoneInput.style.display = "none";
-  emailInput.style.display = "none";
-  phoneInput.required = false;
-  emailInput.required = false;
-
-  if (this.value === "phone") {
-    phoneInput.style.display = "block";
-    phoneInput.required = true;
+    images.forEach(img => {
+      const imgCenter = img.offsetLeft + img.offsetWidth / 2;
+      const distance = Math.abs(center - imgCenter);
+      img.classList.toggle("active", distance < 250);
+    });
   }
 
-  if (this.value === "email") {
-    emailInput.style.display = "block";
-    emailInput.required = true;
+  gallery.addEventListener("scroll", updateActive);
+  window.addEventListener("load", updateActive);
+
+  function openModal(src) {
+    document.getElementById("modalImg").src = src;
+    document.getElementById("modal").classList.add("show");
   }
-});
 
-/* SCROLL ANIMATION */
-const observer = new IntersectionObserver(entries => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add('show');
-    }
+  function closeModal() {
+    document.getElementById("modal").classList.remove("show");
+  }
+
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if(entry.isIntersecting){
+        entry.target.classList.add('show');
+      }
+    });
   });
-});
 
-document.querySelectorAll('.hidden').forEach(el => observer.observe(el));
+  document.querySelectorAll('.hidden').forEach(el => observer.observe(el));
 </script>
 
 </body>
