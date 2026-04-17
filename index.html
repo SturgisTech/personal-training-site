@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title> SOSA | Personal Training</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      scroll-behavior: smooth;
+      background: #111;
+      color: #fff;
+    }
+
+    header {
+      text-align: center;
+      padding: 60px 20px;
+      background: #000;
+    }
+
+    header h1 {
+      font-size: 3em;
+      margin: 0;
+    }
+
+    section {
+      padding: 50px 20px;
+      text-align: center;
+    }
+
+    .gallery img {
+      width: 250px;
+      margin: 10px;
+      border-radius: 10px;
+    }
+
+    form {
+      max-width: 500px;
+      margin: auto;
+      text-align: left;
+    }
+
+    input, textarea, select {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border-radius: 5px;
+      border: none;
+    }
+
+    button {
+      background: #00c853;
+      color: white;
+      padding: 15px;
+      border: none;
+      width: 100%;
+      font-size: 1.1em;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #00a844;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Your Name</h1>
+  <p>Personal Trainer | Transform Your Body & Mind</p>
+</header>
+
+<section>
+  <h2>About Me</h2>
+  <p>I help clients achieve their fitness goals through personalized training programs and accountability.</p>
+</section>
+
+<section class="gallery">
+  <h2>My Work</h2>
+  <!-- Replace with your photos -->
+  <img src="photo1.jpg" alt="Training photo">
+  <img src="photo2.jpg" alt="Training photo">
+  <img src="photo3.jpg" alt="Training photo">
+</section>
+
+<section>
+  <h2>Start Your Transformation</h2>
+
+  <form action="https://formspree.io/f/yourID" method="POST">
+    
+    <label>Name</label>
+    <input type="text" name="name" required>
+
+    <label>Height</label>
+    <input type="text" name="height" required>
+
+    <label>Weight</label>
+    <input type="text" name="weight" required>
+
+    <label>Your Goal</label>
+    <textarea name="goal" required></textarea>
+
+    <label>Preferred Contact (Phone or Email)</label>
+    <input type="text" name="contact" required>
+
+    <label>Budget</label>
+    <select name="budget" required>
+      <option value="">Select your budget</option>
+      <option>$50 - $100 / week</option>
+      <option>$100 - $200 / week</option>
+      <option>$200+ / week</option>
+      <option>$100 - $300 / month</option>
+      <option>$300 - $600 / month</option>
+      <option>$600+ / month</option>
+    </select>
+
+    <button type="submit">Submit Inquiry</button>
+
+  </form>
+</section>
+
+</body>
+</html>
