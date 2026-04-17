@@ -159,12 +159,36 @@
     <label>Weight</label>
     <input type="text" name="weight" required>
 
+    <!-- GOALS (MULTIPLE CHOICE) -->
     <label>Your Goal</label>
-    <textarea name="goal" required></textarea>
+    <select name="goal" id="goalSelect" required>
+      <option value="">Select your goal</option>
+      <option>Lose Weight</option>
+      <option>Tone Muscles</option>
+      <option>Gain / Bulk Muscle</option>
+      <option>Improve Overall Fitness</option>
+      <option>Better Nutrition Plan</option>
+      <option value="other">Other</option>
+    </select>
 
-    <label>Preferred Contact (Phone or Email)</label>
-    <input type="text" name="contact" required>
+    <!-- CUSTOM GOAL INPUT -->
+    <input type="text" name="custom_goal" id="customGoal" placeholder="Enter your specific goal" style="display:none;">
 
+    <!-- CONTACT METHOD -->
+    <label>Preferred Contact Method</label>
+    <select id="contactMethod" required>
+      <option value="">Select one</option>
+      <option value="phone">Phone</option>
+      <option value="email">Email</option>
+    </select>
+
+    <!-- PHONE INPUT -->
+    <input type="text" name="phone" id="phoneInput" placeholder="Enter your phone number" style="display:none;">
+
+    <!-- EMAIL INPUT -->
+    <input type="email" name="email" id="emailInput" placeholder="Enter your email" style="display:none;">
+
+    <!-- BUDGET -->
     <label>Budget</label>
     <select name="budget" required>
       <option value="">Select your budget</option>
@@ -177,6 +201,46 @@
     </select>
 
     <button type="submit">Submit Inquiry</button>
+
+  </form>
+</section>
+
+<script>
+  // Show custom goal input
+  const goalSelect = document.getElementById("goalSelect");
+  const customGoal = document.getElementById("customGoal");
+
+  goalSelect.addEventListener("change", function() {
+    if (this.value === "other") {
+      customGoal.style.display = "block";
+      customGoal.required = true;
+    } else {
+      customGoal.style.display = "none";
+      customGoal.required = false;
+    }
+  });
+
+  // Contact method logic
+  const contactMethod = document.getElementById("contactMethod");
+  const phoneInput = document.getElementById("phoneInput");
+  const emailInput = document.getElementById("emailInput");
+
+  contactMethod.addEventListener("change", function() {
+    phoneInput.style.display = "none";
+    emailInput.style.display = "none";
+
+    phoneInput.required = false;
+    emailInput.required = false;
+
+    if (this.value === "phone") {
+      phoneInput.style.display = "block";
+      phoneInput.required = true;
+    } else if (this.value === "email") {
+      emailInput.style.display = "block";
+      emailInput.required = true;
+    }
+  });
+</script>
 
   </form>
 </section>
