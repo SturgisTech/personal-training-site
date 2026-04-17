@@ -231,14 +231,15 @@
     <label>Weight</label>
     <input type="text" name="weight" required>
 
-    <label>Your Goal</label>
-    <select name="goal" required>
-      <option>Lose Weight</option>
-      <option>Tone Muscles</option>
-      <option>Gain Muscle</option>
-      <option>Improve Fitness</option>
-      <option>Nutrition Plan</option>
-    </select>
+<label>Your Goal (select all that apply)</label>
+
+<div style="margin: 10px 0; display: flex; flex-direction: column; gap: 8px;">
+  <label><input type="checkbox" name="goal[]" value="Lose Weight"> Lose Weight</label>
+  <label><input type="checkbox" name="goal[]" value="Tone Muscles"> Tone Muscles</label>
+  <label><input type="checkbox" name="goal[]" value="Gain Muscle"> Gain Muscle</label>
+  <label><input type="checkbox" name="goal[]" value="Improve Fitness"> Improve Fitness</label>
+  <label><input type="checkbox" name="goal[]" value="Nutrition Plan"> Nutrition Plan</label>
+</div>
 
     <!-- CONTACT METHOD -->
     <label>Preferred Contact Method</label>
