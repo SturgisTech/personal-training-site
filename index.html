@@ -59,35 +59,41 @@
       transform: translateY(0);
     }
 
-    /* SCROLL GALLERY */
+    /* 🔥 PREMIUM SCROLL GALLERY */
     .scroll-gallery {
       display: flex;
       overflow-x: auto;
-      gap: 15px;
-      padding: 20px;
+      gap: 20px;
+      padding: 40px 20px;
       scroll-snap-type: x mandatory;
+      justify-content: center;
     }
 
     .scroll-gallery::-webkit-scrollbar {
-      height: 8px;
+      display: none;
     }
 
-    .scroll-gallery::-webkit-scrollbar-thumb {
-      background: rgba(255,255,255,0.2);
-      border-radius: 10px;
+    .scroll-gallery {
+      scrollbar-width: none;
     }
 
     .scroll-gallery img {
-      flex: 0 0 auto;
-      width: 260px;
-      border-radius: 10px;
+      flex: 0 0 70%;
+      max-width: 500px;
+      height: auto; /* keeps original ratio */
+      border-radius: 12px;
       scroll-snap-align: center;
-      transition: transform 0.4s ease, box-shadow 0.4s ease;
+
+      opacity: 0.4;
+      transform: scale(0.85);
+      transition: all 0.4s ease;
     }
 
-    .scroll-gallery img:hover {
-      transform: scale(1.05);
-      box-shadow: 0 10px 30px rgba(255, 215, 0, 0.2);
+    /* ACTIVE IMAGE */
+    .scroll-gallery img.active {
+      opacity: 1;
+      transform: scale(1);
+      box-shadow: 0 15px 40px rgba(255, 215, 0, 0.25);
     }
 
     /* CERTIFICATE */
@@ -208,17 +214,13 @@
   </a>
 </div>
 
-<!-- UPDATED SCROLL SECTION -->
 <section class="hidden">
   <h2>My Journey</h2>
 
   <div class="scroll-gallery">
-    <img src="images/photo1.jpg">
+    <img src="images/photo1.jpg" class="active">
     <img src="images/photo2.jpg">
     <img src="images/photo3.jpg">
-
-    <!-- Add more images here -->
-    <!-- <img src="images/photo4.jpg"> -->
   </div>
 </section>
 
@@ -226,7 +228,6 @@
   <h2>Start Your Transformation</h2>
 
   <form action="https://formspree.io/f/xpqkddnv" method="POST">
-    
     <label>Name</label>
     <input type="text" name="name" required>
 
@@ -271,11 +272,31 @@
     </select>
 
     <button type="submit">Submit Inquiry</button>
-
   </form>
 </section>
 
 <script>
+  const gallery = document.querySelector('.scroll-gallery');
+  const images = document.querySelectorAll('.scroll-gallery img');
+
+  function updateGalleryFocus() {
+    const center = gallery.scrollLeft + gallery.offsetWidth / 2;
+
+    images.forEach(img => {
+      const imgCenter = img.offsetLeft + img.offsetWidth / 2;
+      const distance = Math.abs(center - imgCenter);
+
+      if (distance < img.offsetWidth / 2) {
+        img.classList.add("active");
+      } else {
+        img.classList.remove("active");
+      }
+    });
+  }
+
+  gallery.addEventListener('scroll', updateGalleryFocus);
+  window.addEventListener('load', updateGalleryFocus);
+
   const goalSelect = document.getElementById("goalSelect");
   const customGoal = document.getElementById("customGoal");
 
