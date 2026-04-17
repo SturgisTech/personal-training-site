@@ -59,14 +59,18 @@
       transform: translateY(0);
     }
 
-    /* 🔥 PREMIUM SCROLL GALLERY */
+    /* 🔥 FIXED PREMIUM SCROLL GALLERY */
     .scroll-gallery {
       display: flex;
       overflow-x: auto;
-      gap: 20px;
+      gap: 25px;
       padding: 40px 20px;
+
       scroll-snap-type: x mandatory;
-      justify-content: center;
+      -webkit-overflow-scrolling: touch;
+
+      justify-content: flex-start;
+      align-items: center;
     }
 
     .scroll-gallery::-webkit-scrollbar {
@@ -77,16 +81,21 @@
       scrollbar-width: none;
     }
 
+    /* ✅ FIX: NO DISTORTION + CLEAN SCROLL */
     .scroll-gallery img {
-      flex: 0 0 70%;
-      max-width: 500px;
-      height: auto; /* keeps original ratio */
+      flex: 0 0 auto;
+
+      height: 420px;   /* consistent visual height */
+      width: auto;     /* preserves original aspect ratio */
+
       border-radius: 12px;
       scroll-snap-align: center;
 
-      opacity: 0.4;
-      transform: scale(0.85);
+      opacity: 0.35;
+      transform: scale(0.88);
       transition: all 0.4s ease;
+
+      object-fit: contain;
     }
 
     /* ACTIVE IMAGE */
@@ -286,7 +295,7 @@
       const imgCenter = img.offsetLeft + img.offsetWidth / 2;
       const distance = Math.abs(center - imgCenter);
 
-      if (distance < img.offsetWidth / 2) {
+      if (distance < gallery.offsetWidth / 2 * 0.6) {
         img.classList.add("active");
       } else {
         img.classList.remove("active");
