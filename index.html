@@ -78,22 +78,20 @@
       scrollbar-width: none;
     }
 
-    /* FIXED: no distortion + proper scaling */
+    /* FIX: no distortion */
     .scroll-gallery img {
       flex: 0 0 auto;
       height: 420px;
-      width: auto;              /* preserves original ratio */
+      width: auto;
       max-width: 85vw;
 
-      object-fit: contain;      /* prevents stretching */
-
+      object-fit: contain;
       border-radius: 12px;
       scroll-snap-align: center;
 
       opacity: 0.35;
       transform: scale(0.88);
       transition: all 0.35s ease;
-
       cursor: pointer;
     }
 
@@ -104,7 +102,7 @@
     }
 
     /* =========================
-       MODAL (CLICK TO ENLARGE)
+       MODAL
     ========================== */
 
     .modal {
@@ -120,14 +118,14 @@
       align-items: center;
     }
 
+    .modal.show {
+      display: flex;
+    }
+
     .modal img {
       max-width: 90%;
       max-height: 85vh;
       border-radius: 12px;
-    }
-
-    .modal.show {
-      display: flex;
     }
 
     /* CERTIFICATE */
@@ -196,17 +194,18 @@
   <p>I help clients achieve their fitness goals through personalized training programs and accountability.</p>
 </section>
 
-<!-- ================= CERTIFICATE ================= -->
+<!-- CERTIFICATE -->
 <section class="hidden">
   <h2>Certification</h2>
   <img src="images/certificate.jpg" class="certificate" onclick="openModal(this.src)">
 </section>
 
+<!-- MODAL -->
 <div id="modal" class="modal" onclick="closeModal()">
   <img id="modalImg">
 </div>
 
-<!-- ================= GALLERY ================= -->
+<!-- GALLERY -->
 <section class="hidden">
   <h2>My Journey</h2>
 
@@ -217,11 +216,12 @@
   </div>
 </section>
 
-<!-- ================= FORM ================= -->
+<!-- FORM -->
 <section class="hidden">
   <h2>Start Your Transformation</h2>
 
   <form action="https://formspree.io/f/xpqkddnv" method="POST">
+
     <label>Name</label>
     <input type="text" name="name" required>
 
@@ -240,49 +240,81 @@
       <option>Nutrition Plan</option>
     </select>
 
+    <!-- CONTACT METHOD -->
+    <label>Preferred Contact Method</label>
+    <select id="contactMethod" required>
+      <option value="">Select one</option>
+      <option value="phone">Phone</option>
+      <option value="email">Email</option>
+    </select>
+
+    <input type="text" name="phone" id="phoneInput" placeholder="Phone Number" style="display:none;">
+    <input type="email" name="email" id="emailInput" placeholder="Email Address" style="display:none;">
+
     <button type="submit">Submit Inquiry</button>
   </form>
 </section>
 
 <script>
-  /* ================= GALLERY ACTIVE CENTER EFFECT ================= */
-  const gallery = document.querySelector('.scroll-gallery');
-  const images = document.querySelectorAll('.scroll-gallery img');
+/* GALLERY ACTIVE CENTER */
+const gallery = document.querySelector('.scroll-gallery');
+const images = document.querySelectorAll('.scroll-gallery img');
 
-  function updateActive() {
-    const center = gallery.scrollLeft + gallery.offsetWidth / 2;
+function updateActive() {
+  const center = gallery.scrollLeft + gallery.offsetWidth / 2;
 
-    images.forEach(img => {
-      const imgCenter = img.offsetLeft + img.offsetWidth / 2;
-      const distance = Math.abs(center - imgCenter);
-
-      img.classList.toggle("active", distance < 250);
-    });
-  }
-
-  gallery.addEventListener("scroll", updateActive);
-  window.addEventListener("load", updateActive);
-
-  /* ================= MODAL ================= */
-  function openModal(src) {
-    document.getElementById("modalImg").src = src;
-    document.getElementById("modal").classList.add("show");
-  }
-
-  function closeModal() {
-    document.getElementById("modal").classList.remove("show");
-  }
-
-  /* ================= SCROLL ANIMATION ================= */
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-      if(entry.isIntersecting){
-        entry.target.classList.add('show');
-      }
-    });
+  images.forEach(img => {
+    const imgCenter = img.offsetLeft + img.offsetWidth / 2;
+    const distance = Math.abs(center - imgCenter);
+    img.classList.toggle("active", distance < 250);
   });
+}
 
-  document.querySelectorAll('.hidden').forEach(el => observer.observe(el));
+gallery.addEventListener("scroll", updateActive);
+window.addEventListener("load", updateActive);
+
+/* MODAL */
+function openModal(src) {
+  document.getElementById("modalImg").src = src;
+  document.getElementById("modal").classList.add("show");
+}
+
+function closeModal() {
+  document.getElementById("modal").classList.remove("show");
+}
+
+/* CONTACT METHOD */
+const contactMethod = document.getElementById("contactMethod");
+const phoneInput = document.getElementById("phoneInput");
+const emailInput = document.getElementById("emailInput");
+
+contactMethod.addEventListener("change", function () {
+  phoneInput.style.display = "none";
+  emailInput.style.display = "none";
+  phoneInput.required = false;
+  emailInput.required = false;
+
+  if (this.value === "phone") {
+    phoneInput.style.display = "block";
+    phoneInput.required = true;
+  }
+
+  if (this.value === "email") {
+    emailInput.style.display = "block";
+    emailInput.required = true;
+  }
+});
+
+/* SCROLL ANIMATION */
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('show');
+    }
+  });
+});
+
+document.querySelectorAll('.hidden').forEach(el => observer.observe(el));
 </script>
 
 </body>
