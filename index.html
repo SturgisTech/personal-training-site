@@ -59,14 +59,33 @@
       transform: translateY(0);
     }
 
-    .gallery img {
-      width: 260px;
-      margin: 12px;
+    /* SCROLL GALLERY */
+    .scroll-gallery {
+      display: flex;
+      overflow-x: auto;
+      gap: 15px;
+      padding: 20px;
+      scroll-snap-type: x mandatory;
+    }
+
+    .scroll-gallery::-webkit-scrollbar {
+      height: 8px;
+    }
+
+    .scroll-gallery::-webkit-scrollbar-thumb {
+      background: rgba(255,255,255,0.2);
       border-radius: 10px;
+    }
+
+    .scroll-gallery img {
+      flex: 0 0 auto;
+      width: 260px;
+      border-radius: 10px;
+      scroll-snap-align: center;
       transition: transform 0.4s ease, box-shadow 0.4s ease;
     }
 
-    .gallery img:hover {
+    .scroll-gallery img:hover {
       transform: scale(1.05);
       box-shadow: 0 10px 30px rgba(255, 215, 0, 0.2);
     }
@@ -174,9 +193,8 @@
   <h2>About Me</h2>
   <p>I help clients achieve their fitness goals through personalized training programs and accountability.</p>
 
-  <!-- CLICKABLE CERTIFICATE -->
   <a href="#certModal">
-    <img src="images/certificate.jpg" alt="Training Certificate" class="certificate">
+    <img src="images/certificate.jpg" class="certificate">
   </a>
 
   <p style="color:#aaa; font-size:0.9em; margin-top:10px;">
@@ -184,18 +202,24 @@
   </p>
 </section>
 
-<!-- MODAL -->
 <div id="certModal" class="modal">
   <a href="#">
-    <img src="images/certificate.jpg" alt="Certificate Full View">
+    <img src="images/certificate.jpg">
   </a>
 </div>
 
-<section class="gallery hidden">
+<!-- UPDATED SCROLL SECTION -->
+<section class="hidden">
   <h2>My Journey</h2>
-  <img src="images/photo1.jpg">
-  <img src="images/photo2.jpg">
-  <img src="images/photo3.jpg">
+
+  <div class="scroll-gallery">
+    <img src="images/photo1.jpg">
+    <img src="images/photo2.jpg">
+    <img src="images/photo3.jpg">
+
+    <!-- Add more images here -->
+    <!-- <img src="images/photo4.jpg"> -->
+  </div>
 </section>
 
 <section class="hidden">
