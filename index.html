@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title> SOSA | Personal Training</title>
+  <title>SOSA | Personal Training</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
@@ -44,10 +44,6 @@
       text-align: center;
     }
 
-    section:first-of-type {
-      padding-top: 20px;
-    }
-
     .hidden {
       opacity: 0;
       transform: translateY(40px);
@@ -59,16 +55,17 @@
       transform: translateY(0);
     }
 
-    /* 🔥 FIXED PREMIUM SCROLL GALLERY */
+    /* =========================
+       PREMIUM SCROLL GALLERY
+    ========================== */
+
     .scroll-gallery {
       display: flex;
-      overflow-x: auto;
       gap: 25px;
+      overflow-x: auto;
       padding: 40px 20px;
-
       scroll-snap-type: x mandatory;
       -webkit-overflow-scrolling: touch;
-
       justify-content: flex-start;
       align-items: center;
     }
@@ -81,28 +78,56 @@
       scrollbar-width: none;
     }
 
-    /* ✅ FIX: NO DISTORTION + CLEAN SCROLL */
+    /* FIXED: no distortion + proper scaling */
     .scroll-gallery img {
       flex: 0 0 auto;
+      height: 420px;
+      width: auto;              /* preserves original ratio */
+      max-width: 85vw;
 
-      height: 420px;   /* consistent visual height */
-      width: auto;     /* preserves original aspect ratio */
+      object-fit: contain;      /* prevents stretching */
 
       border-radius: 12px;
       scroll-snap-align: center;
 
       opacity: 0.35;
       transform: scale(0.88);
-      transition: all 0.4s ease;
+      transition: all 0.35s ease;
 
-      object-fit: contain;
+      cursor: pointer;
     }
 
-    /* ACTIVE IMAGE */
     .scroll-gallery img.active {
       opacity: 1;
       transform: scale(1);
       box-shadow: 0 15px 40px rgba(255, 215, 0, 0.25);
+    }
+
+    /* =========================
+       MODAL (CLICK TO ENLARGE)
+    ========================== */
+
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 9999;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.92);
+      justify-content: center;
+      align-items: center;
+    }
+
+    .modal img {
+      max-width: 90%;
+      max-height: 85vh;
+      border-radius: 12px;
+    }
+
+    .modal.show {
+      display: flex;
     }
 
     /* CERTIFICATE */
@@ -119,31 +144,7 @@
       transform: scale(1.03);
     }
 
-    /* MODAL */
-    .modal {
-      display: none;
-      position: fixed;
-      z-index: 999;
-      padding-top: 60px;
-      left: 0;
-      top: 0;
-      width: 100%;
-      height: 100%;
-      background-color: rgba(0,0,0,0.9);
-    }
-
-    .modal img {
-      margin: auto;
-      display: block;
-      max-width: 90%;
-      max-height: 80vh;
-      border-radius: 10px;
-    }
-
-    .modal:target {
-      display: block;
-    }
-
+    /* FORM */
     form {
       max-width: 500px;
       margin: auto;
@@ -164,10 +165,6 @@
       color: #fff;
     }
 
-    input::placeholder, textarea::placeholder {
-      color: #777;
-    }
-
     button {
       background: gold;
       color: black;
@@ -178,16 +175,6 @@
       border-radius: 5px;
       cursor: pointer;
       font-weight: bold;
-      transition: 0.3s ease;
-    }
-
-    button:hover {
-      background: #d4af37;
-      transform: translateY(-2px);
-    }
-
-    section h2 {
-      margin-bottom: 20px;
     }
 
     @keyframes fadeIn {
@@ -207,32 +194,30 @@
 <section class="hidden">
   <h2>About Me</h2>
   <p>I help clients achieve their fitness goals through personalized training programs and accountability.</p>
-
-  <a href="#certModal">
-    <img src="images/certificate.jpg" class="certificate">
-  </a>
-
-  <p style="color:#aaa; font-size:0.9em; margin-top:10px;">
-    ISSA Certified Personal Trainer
-  </p>
 </section>
 
-<div id="certModal" class="modal">
-  <a href="#">
-    <img src="images/certificate.jpg">
-  </a>
+<!-- ================= CERTIFICATE ================= -->
+<section class="hidden">
+  <h2>Certification</h2>
+  <img src="images/certificate.jpg" class="certificate" onclick="openModal(this.src)">
+</section>
+
+<div id="modal" class="modal" onclick="closeModal()">
+  <img id="modalImg">
 </div>
 
+<!-- ================= GALLERY ================= -->
 <section class="hidden">
   <h2>My Journey</h2>
 
   <div class="scroll-gallery">
-    <img src="images/photo1.jpg" class="active">
-    <img src="images/photo2.jpg">
-    <img src="images/photo3.jpg">
+    <img src="images/photo1.jpg" class="active" onclick="openModal(this.src)">
+    <img src="images/photo2.jpg" onclick="openModal(this.src)">
+    <img src="images/photo3.jpg" onclick="openModal(this.src)">
   </div>
 </section>
 
+<!-- ================= FORM ================= -->
 <section class="hidden">
   <h2>Start Your Transformation</h2>
 
@@ -247,37 +232,12 @@
     <input type="text" name="weight" required>
 
     <label>Your Goal</label>
-    <select name="goal" id="goalSelect" required>
-      <option value="">Select your goal</option>
+    <select name="goal" required>
       <option>Lose Weight</option>
       <option>Tone Muscles</option>
-      <option>Gain / Bulk Muscle</option>
-      <option>Improve Overall Fitness</option>
-      <option>Better Nutrition Plan</option>
-      <option value="other">Other</option>
-    </select>
-
-    <input type="text" name="custom_goal" id="customGoal" placeholder="Enter your specific goal" style="display:none;">
-
-    <label>Preferred Contact Method</label>
-    <select id="contactMethod" required>
-      <option value="">Select one</option>
-      <option value="phone">Phone</option>
-      <option value="email">Email</option>
-    </select>
-
-    <input type="text" name="phone" id="phoneInput" placeholder="Enter your phone number" style="display:none;">
-    <input type="email" name="email" id="emailInput" placeholder="Enter your email" style="display:none;">
-
-    <label>Budget</label>
-    <select name="budget" required>
-      <option value="">Select your budget</option>
-      <option>$50 - $100 / week</option>
-      <option>$100 - $200 / week</option>
-      <option>$200+ / week</option>
-      <option>$100 - $300 / month</option>
-      <option>$300 - $600 / month</option>
-      <option>$600+ / month</option>
+      <option>Gain Muscle</option>
+      <option>Improve Fitness</option>
+      <option>Nutrition Plan</option>
     </select>
 
     <button type="submit">Submit Inquiry</button>
@@ -285,54 +245,35 @@
 </section>
 
 <script>
+  /* ================= GALLERY ACTIVE CENTER EFFECT ================= */
   const gallery = document.querySelector('.scroll-gallery');
   const images = document.querySelectorAll('.scroll-gallery img');
 
-  function updateGalleryFocus() {
+  function updateActive() {
     const center = gallery.scrollLeft + gallery.offsetWidth / 2;
 
     images.forEach(img => {
       const imgCenter = img.offsetLeft + img.offsetWidth / 2;
       const distance = Math.abs(center - imgCenter);
 
-      if (distance < gallery.offsetWidth / 2 * 0.6) {
-        img.classList.add("active");
-      } else {
-        img.classList.remove("active");
-      }
+      img.classList.toggle("active", distance < 250);
     });
   }
 
-  gallery.addEventListener('scroll', updateGalleryFocus);
-  window.addEventListener('load', updateGalleryFocus);
+  gallery.addEventListener("scroll", updateActive);
+  window.addEventListener("load", updateActive);
 
-  const goalSelect = document.getElementById("goalSelect");
-  const customGoal = document.getElementById("customGoal");
+  /* ================= MODAL ================= */
+  function openModal(src) {
+    document.getElementById("modalImg").src = src;
+    document.getElementById("modal").classList.add("show");
+  }
 
-  goalSelect.addEventListener("change", function() {
-    customGoal.style.display = this.value === "other" ? "block" : "none";
-    customGoal.required = this.value === "other";
-  });
+  function closeModal() {
+    document.getElementById("modal").classList.remove("show");
+  }
 
-  const contactMethod = document.getElementById("contactMethod");
-  const phoneInput = document.getElementById("phoneInput");
-  const emailInput = document.getElementById("emailInput");
-
-  contactMethod.addEventListener("change", function() {
-    phoneInput.style.display = "none";
-    emailInput.style.display = "none";
-    phoneInput.required = false;
-    emailInput.required = false;
-
-    if (this.value === "phone") {
-      phoneInput.style.display = "block";
-      phoneInput.required = true;
-    } else if (this.value === "email") {
-      emailInput.style.display = "block";
-      emailInput.required = true;
-    }
-  });
-
+  /* ================= SCROLL ANIMATION ================= */
   const observer = new IntersectionObserver(entries => {
     entries.forEach(entry => {
       if(entry.isIntersecting){
